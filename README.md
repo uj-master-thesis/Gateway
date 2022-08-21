@@ -1,2 +1,2 @@
 # Gateway
-Gateway to microservice project 
+Gateway for microservice project 
