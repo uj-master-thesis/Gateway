@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,7 @@ public class Program
                 .Build();                                                   
         })
         .ConfigureServices(s => {
+
             var jwtSettings = configuration?.GetSection("JwtBearerSettings").Get<JwtBearerSettings>();
             s.AddAuthentication(options =>
             {
@@ -36,18 +38,17 @@ public class Program
                 options.Authority = jwtSettings.Authority;
                 options.Audience = jwtSettings.Audience;
             });
-            s.AddAuthorization(); 
-            s.AddOcelot();
+            s.AddAuthorization();
+            s.AddHttpContextAccessor();
+            s.AddOcelot().AddDelegatingHandler<HostInjectorDelegatingHandler>();
         })
         .ConfigureLogging((_, _)  => { })
         .UseIISIntegration()
         .Configure(async app =>
         {
-            var configuration = new OcelotPipelineConfiguration
-            {
-                PreAuthorizationMiddleware = SetupOcelotPipelineConfiguration.AddEmailToHeaderMiddleware
-            };
-            await app.UseOcelot(configuration);
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            await app.UseOcelot();
         })
         .Build()
         .Run();

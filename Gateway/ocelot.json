@@ -1,7 +1,7 @@
 ﻿{
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/authorize",
+      "DownstreamPathTemplate": "/uploader/{operation}",
       "DownstreamScheme": "http",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "OAuth",
@@ -9,23 +9,26 @@
       },
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5110
+          "Host": "uploader",
+          "Port": 8080
         }
       ],
-      "UpstreamPathTemplate": "/api/authorize",
-      "UpstreamHttpMethod": [ "Get", "Post" ]
+      "UpstreamPathTemplate": "/uploader/{operation}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DelegatingHandlers": [
+        "HostInjectorDelegatingHandler"
+      ]
     },
     {
-      "DownstreamPathTemplate": "/api/unauthorize",
+      "DownstreamPathTemplate": "/api/{operation}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5110
+          "Host": "inventory",
+          "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/api/unauthorize",
+      "UpstreamPathTemplate": "/api/{operation}",
       "UpstreamHttpMethod": [ "Get" ]
     }
 

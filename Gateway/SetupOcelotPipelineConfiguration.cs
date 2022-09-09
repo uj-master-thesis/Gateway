@@ -9,18 +9,25 @@ using System.Threading.Tasks;
 
 namespace Gateway;
 
-internal class SetupOcelotPipelineConfiguration
+public class HostInjectorDelegatingHandler : DelegatingHandler
 {
-    public static async Task AddEmailToHeaderMiddleware(HttpContext httpContext, Func<Task> next)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public HostInjectorDelegatingHandler(IHttpContextAccessor httpContextAccessor)
     {
-        if (httpContext.Response.StatusCode != 401 && httpContext.Request.Headers.TryGetValue("Authorization", out var token))
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    {
+        if (request.Headers.TryGetValues("Authorization", out var token))
         {
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadToken(token.First().Replace("Bearer ", ""));
             var tokenS = jsonToken as JwtSecurityToken;
             var email = tokenS?.Payload.GetValueOrDefault("https://example.com/email") as string;
-            httpContext.Request.Headers.Add("User_Email", new StringValues(email));
+            request.Headers.Add("User-Email", email);
         }
-        await next.Invoke();
+        return base.SendAsync(request, cancellationToken);
     }
 }
