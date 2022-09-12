@@ -1,0 +1,29 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout uploader
+      uses: actions/checkout@v3
+      with:
+        repository: uj-master-thesis/Uploader
+        path: Uploader
+    - name: Checkout gateway
+      uses: actions/checkout@v3
+      with:
+        repository: uj-master-thesis/Gateway
+        path: Gateway
+    - name: Checkout gateway
+      uses: actions/checkout@v3
+      with:
+        repository: uj-master-thesis/Inventory
+        path: Inventory
