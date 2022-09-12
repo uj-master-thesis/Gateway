@@ -12,18 +12,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout uploader
+    - name: Checkout Uploader
       uses: actions/checkout@v3
       with:
         repository: uj-master-thesis/Uploader
         path: Uploader
-    - name: Checkout gateway
+    - name: Checkout Gateway
       uses: actions/checkout@v3
       with:
         repository: uj-master-thesis/Gateway
         path: Gateway
-    - name: Checkout gateway
+    - name: Checkout Inventory
       uses: actions/checkout@v3
       with:
         repository: uj-master-thesis/Inventory
         path: Inventory
+    - name: Build the stack
+      run: docker-compose -f ./Uploader/docker-compose.yml up -d
