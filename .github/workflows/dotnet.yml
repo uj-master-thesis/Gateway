@@ -40,3 +40,10 @@ jobs:
         build-root-directory: ./Uploader
     - name: Build the stack
       run: docker-compose -f ./Uploader/docker-compose.yml up -d
+    - name: setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8 #install the python needed
+    - name: execute Tests
+      run: |
+        python ReditEndToEntTests.py
