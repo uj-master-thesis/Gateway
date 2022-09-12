@@ -5,7 +5,7 @@ import requests
 import time
 import uuid
 
-base_url = "http://gateway:5000"
+base_url = "http://gateway:80"
 guid = uuid.uuid4()
 thread = {
     "name": f"Example_Thread{guid}",
