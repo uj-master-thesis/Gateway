@@ -27,7 +27,7 @@ public class Program
                 .Build();                                                   
         })
         .ConfigureServices(s => {
-
+            s.AddCors();
             var jwtSettings = configuration?.GetSection("JwtBearerSettings").Get<JwtBearerSettings>();
             s.AddAuthentication(options =>
             {

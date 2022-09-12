@@ -1,6 +1,40 @@
 ﻿{
   "Routes": [
     {
+      "DownstreamPathTemplate": "/subscribed/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "uploader",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/subscribed/{username}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DelegatingHandlers": [
+        "HostInjectorDelegatingHandler"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/subscribe",
+      "DownstreamScheme": "http",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OAuth",
+        "AllowedScopes": []
+      },
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "uploader",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/subscribe",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DelegatingHandlers": [
+        "HostInjectorDelegatingHandler"
+      ]
+    },
+    {
       "DownstreamPathTemplate": "/uploader/{operation}",
       "DownstreamScheme": "http",
       "AuthenticationOptions": {
