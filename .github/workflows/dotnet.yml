@@ -39,7 +39,7 @@ jobs:
         arguments: build
         build-root-directory: ./Uploader
     - name: Build the stack
-      run: docker-compose -f ./Uploader/docker-compose.yml up --build
+      run: docker-compose -f ./Uploader/docker-compose.yml up --build -d
     - name: setup python
       uses: actions/setup-python@v2
       with:
