@@ -45,6 +45,7 @@ jobs:
         python-version: 3.8 #install the python needed
         
     - name: Build the stack and Execute Tests
+      shell: bash
       run: |
         docker-compose -f ./Uploader/docker-compose.yml up --build -d
         python -m pip install --upgrade pip
