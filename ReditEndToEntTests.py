@@ -5,7 +5,7 @@ import requests
 import time
 import uuid
 
-base_url = "http://uploader-gateway-1:80"
+base_url = "http://localhost:5000"
 guid = uuid.uuid4()
 thread = {
     "name": f"Example_Thread{guid}",
